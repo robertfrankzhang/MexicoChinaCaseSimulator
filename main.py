@@ -11,17 +11,11 @@ dataGenerator = HistoricalDataGenerator()
 numPeriods = dataGenerator.numPeriods
 SKUCount = dataGenerator.numSKU
 
-'''
-0 = China Only
-2 - 11: Mex SLs
-12-21: China SLs
-'''
-
-modesToTry = [2,3,4,5,6,7,8,9,10,11] #Mex
-modesToTry = [12,13,14,15,16,17,18,19,20,21] #China
+###Control Panel####
 modesToTry = [2.2]
 #SKUsToTry = [0,1,2,3,4,5,6,7,8,9]
 SKUsToTry = [0]
+####################
 
 with open("modeEval.csv", mode='w') as file:
     writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
