@@ -1,0 +1,6 @@
+__pycache__/
+*.xlsx
+meanAndSD.csv
+modeEval.csv
+.idea/
+.DS_Store
