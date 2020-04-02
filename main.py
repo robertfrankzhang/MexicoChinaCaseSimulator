@@ -12,9 +12,9 @@ numPeriods = dataGenerator.numPeriods
 SKUCount = dataGenerator.numSKU
 
 ###Control Panel####
-modesToTry = [2.2]
+modesToTry = [10]
 #SKUsToTry = [0,1,2,3,4,5,6,7,8,9]
-SKUsToTry = [0]
+SKUsToTry = [0,1,2,3,4,5,6,7,8,9]
 ####################
 
 with open("modeEval.csv", mode='w') as file:
@@ -215,6 +215,24 @@ with open("modeEval.csv", mode='w') as file:
                         amount = max(0,safetyStock - firm.unitInventoryOnHand + mean1)
                         print(amount)
                         firm.sourceUnit("Mexico", amount)
+
+                elif mode == 10:
+                    SL = (10000-7250)/(2750+7250*(math.pow(1.01,4)-1))
+                    mexOrder = 0
+                    chinaOrder = 0
+                    if i < numPeriods - 2:
+                        mean1, sd1 = dataGenerator.getMeanSDOfPeriod(i + 1)
+                        mexOrder = max(0, norm.ppf(SL) * sd1 + mean1 - firm.unitInventoryOnHand - firm.plants['China'].getUnitArriveIn(1))
+                        firm.sourceUnit("Mexico", mexOrder)
+                    if i < numPeriods - 5:
+                        mean2, sd2 = dataGenerator.getMeanSDOfPeriod(i + 2)
+                        mean3, sd3 = dataGenerator.getMeanSDOfPeriod(i + 3)
+                        mean4, sd4 = dataGenerator.getMeanSDOfPeriod(i + 4)
+                        expInvIn4 = firm.unitInventoryOnHand - mean1 - mean2 - mean3 + firm.plants["China"].getAllOnTheWay() + mexOrder
+                        chinaOrder = max(0,norm.ppf(SL,mean4,sd4)-expInvIn4)
+                        firm.sourceUnit("China",chinaOrder)
+                        #print(chinaOrder)
+                    print(chinaOrder)
 
                 ####################################################################################################################
 
