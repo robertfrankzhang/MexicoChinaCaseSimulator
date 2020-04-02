@@ -20,14 +20,16 @@ while True:
     while True:
         try:
             demand = int(input("Please enter the demand\n"))
-            break
+            while True:
+                answer = input("Are you sure demand is " + str(demand) + "? (yes/no)")
+                if answer == "yes":
+                    break
+                elif answer == "no":
+                    break
+            if answer == "yes":
+                break
         except ValueError:
             print("Demand must be int try again")
-
-    while True:
-        answer = input("Are you sure demand is "+str(demand)+"?")
-        if answer == "yes":
-            break
 
     firm.runPeriod(demand)
     SL = (10000 - 7250) / (2750 + 7250 * (math.pow(1.01, 4) - 1))
